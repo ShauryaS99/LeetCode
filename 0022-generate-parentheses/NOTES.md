@@ -1,8 +1,8 @@
 This is a backtracking question: essentially we are using recursion to iteratively build a set of all solutions. This contrasts from recursion slightly where we try to simplify it to a base case and bubble up.
 
 In this question, we map out our state-space tree (a tree representing all states of the problem) AKA decision tree to try to find a pattern. 
-
-n = 3
+<pre>
+                                                                              n = 3
                                                                                 (
                                                                             /      \
                                                                            (        )
@@ -10,6 +10,7 @@ n = 3
                                                                         (     )       (  
                                                                         |    / \     /   \
                                                                         )   (   )   (     )
+</pre>
 etc.
 I found we have 1 rules for valid parantheses:
 - At any given point: open_brackets >= closed_brackets
