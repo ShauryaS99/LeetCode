@@ -8,6 +8,7 @@ The 1 PASS Solution has 2 pointers instead. One that is n spaces ahead of the fi
 
 
 - The one edge case to watch out for is if we are removing the first node. In that case we just return head.next. This is difficult to deal with because there is not PREV_NODE to rely on since we are at the beginning of the list.
+
 For CASE 1:
 - Here since we know the size of the Linked List, we can easily tell if the value 'n' is telling us to delete the first node (n = size). 
 
