@@ -24,9 +24,11 @@ class Solution:
         for i in range(len(grid)):
             for j in range(len(grid[0])):
                 queue.append((i,j))
+                #skip points that are in another island or that are water
                 if (i,j) not in visited and grid[i][j] == '1':
                     num_islands += 1
     
+                #run BFS from every point to see the island
                 while queue:
                     coordinate = queue.pop(0)
                     x,y = coordinate
