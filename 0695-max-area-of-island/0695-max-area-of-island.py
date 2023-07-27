@@ -20,12 +20,13 @@ class Solution:
                 directions.append(west)
             return directions
                 
-            
+        #Run DFS on every point: skipping 0s and nodes we have already visited
         for i in range(len(grid)):
             for j in range(len(grid[0])):
                 if grid[i][j] == 0 or (i,j) in visited:
                     continue
                 stack.append((i,j))
+                #keep a curr_area counter for each island we come across
                 curr_area = 0
                 while stack:
                     x,y = stack.pop()
@@ -34,7 +35,7 @@ class Solution:
                     if (x,y) not in visited:
                         visited.add((x,y))
                         stack.extend(explore_directions(x,y))
-                    curr_area += 1
+                    curr_area += 1 #don't count area if node has been visisted or if 0
                 max_area = max(max_area, curr_area)
                     
         return max_area
