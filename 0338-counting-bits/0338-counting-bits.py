@@ -1,11 +1,14 @@
 class Solution:
     def countBits(self, n: int) -> List[int]:
-        ans = [0] * (n + 1)
+        dp = [0] * (n + 1)
+        dp[0] = 0
         for i in range(n + 1):
-            binary = bin(i)[1:]
-            count = 0
-            for j in binary:
-                if j == '1':
-                    count += 1
-            ans[i] = count
-        return ans
+            if i % 2 == 0:
+                # a number multiplied by 2 has the same number of ones just shifted to the left
+                # i.e. 10 (1010) => 5 (101)
+                dp[i] = dp[i // 2]
+            else:
+                # if its an odd number then it has a 1 at the Least Significant Bit
+                # i.e. 11 (1011) => 10 (1010)
+                dp[i] = dp[i - 1] + 1
+        return dp
