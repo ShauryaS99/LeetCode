@@ -13,8 +13,6 @@ class Solution:
         while fast.next and fast.next.next:
             slow = slow.next
             fast = fast.next.next
-            print(slow.val)
-            print(fast.val)
             
         mid = slow.next
         return mid
