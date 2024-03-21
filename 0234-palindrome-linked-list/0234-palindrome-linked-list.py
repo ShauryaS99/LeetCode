@@ -5,14 +5,24 @@
 #         self.next = next
 class Solution:
     def isPalindrome(self, head: Optional[ListNode]) -> bool:
-        temp = head
-        stack = []
-        while temp:
-            stack.append(temp.val)
-            temp = temp.next
-        while head:
-            if head.val == stack.pop():
-                head = head.next
-            else:
+        #Find middle of palindrome (slow)
+        slow = fast = head
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+        # Reverse 2nd half of linked list (prev)
+        prev = None
+        curr = slow
+        while curr:
+            nxt = curr.next
+            curr.next = prev
+            prev = curr
+            curr = nxt
+        #Check prev and head and move inwards
+        while prev:
+            if prev.val != head.val:
                 return False
+            prev = prev.next
+            head = head.next
         return True
+        
