@@ -1,9 +1,10 @@
 class Solution:
     def fib(self, n: int) -> int:
-        if n <= 1:
-            return n
-        dp = [0] * (n + 1)
-        dp[1] = 1
-        for i in range(2, n + 1):
-            dp[i] = dp[i - 1] + dp[i - 2]
-        return dp[n]
+        #DP solution b/c we save previous work O(N)
+        fib_lst = [0] * (n + 1)
+        for i in range(n + 1):
+            if i <= 1:
+                fib_lst[i] = i
+            else:
+                fib_lst[i] = fib_lst[i - 1] + fib_lst[i - 2]
+        return fib_lst[n]
