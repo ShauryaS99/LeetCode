@@ -2,14 +2,14 @@ class Solution:
     def nearestExit(self, maze: List[List[str]], entrance: List[int]) -> int:
         rows = len(maze)
         cols = len(maze[0])
-        q = [entrance]
+        q = deque([entrance])
         visited = set([(entrance[0], entrance[1])])
         num_steps = 0
         while q:
             size = len(q) # Store the size of the current level
             num_steps += 1
             for _ in range(size): # Iterate over the current level
-                curr = q.pop(0)
+                curr = q.popleft()
                 dirs = [(1, 0), (-1, 0), (0, 1), (0, -1)]
                 for dx, dy in dirs:
                     x = curr[0] + dx
