@@ -1,42 +1,31 @@
 class Solution:
     def numIslands(self, grid: List[List[str]]) -> int:
-        visited = set()
-        queue = []
-        num_islands = 0
+        def adj_lands(x, y):
+            dirs = []
+            if x + 1 < len(grid) and grid[x + 1][y] == "1":
+                dirs.append((x + 1, y))
+            if x - 1 >= 0 and grid[x - 1][y] == "1":
+                dirs.append((x - 1, y))
+            if y + 1 < len(grid[0]) and grid[x][y + 1] == "1":
+                dirs.append((x, y + 1))
+            if y - 1 >= 0 and grid[x][y - 1] == "1":
+                dirs.append((x, y - 1))
+            return dirs
         
-        def four_directions(coordinate):
-            result = []
-            x,y = coordinate
-            north = (x - 1, y)
-            south = (x + 1, y)
-            east = (x, y + 1)
-            west = (x, y - 1)
-            if x - 1 >= 0:
-                result.append(north)
-            if x + 1 < len(grid):
-                result.append(south)
-            if y + 1 < len(grid[0]):
-                result.append(east)
-            if y - 1 >= 0:
-                result.append(west)
-            return result
+        visited = set()
+        counter = 0
         
         for i in range(len(grid)):
             for j in range(len(grid[0])):
-                queue.append((i,j))
-                #skip points that are in another island or that are water
-                if (i,j) not in visited and grid[i][j] == '1':
-                    num_islands += 1
-    
-                #run BFS from every point to see the island
+                if (i, j) in visited or grid[i][j] == "0":
+                    continue
+                queue = [(i, j)]
                 while queue:
-                    coordinate = queue.pop(0)
-                    x,y = coordinate
-                    if x < 0 or x > len(grid) or y < 0 or y > len(grid[0]):
+                    cx, cy = queue.pop(0)
+                    if (cx, cy) in visited:
                         continue
-                    if grid[x][y] == '0':
-                        continue
-                    if coordinate not in visited:
-                        visited.add(coordinate)
-                        queue.extend(four_directions(coordinate))
-        return num_islands
+                    visited.add((cx, cy))
+                    valid_dirs = adj_lands(cx, cy)
+                    queue.extend(valid_dirs)
+                counter += 1
+        return counter
