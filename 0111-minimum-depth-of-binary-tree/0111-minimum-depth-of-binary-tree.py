@@ -4,24 +4,29 @@
 #         self.val = val
 #         self.left = left
 #         self.right = right
+from collections import deque
 class Solution:
     def minDepth(self, root: Optional[TreeNode]) -> int:
-        # O(n): DFS approach
+        # O(n): BFS approach
         if not root:
             return 0
         
-        min_depth = float('inf')
-        def dfs(node, curr_depth):
-            nonlocal min_depth
-            # Increment depth as we traverse paths
-            if node.left:
-                dfs(node.left, curr_depth + 1)
-            if node.right: 
-                dfs(node.right, curr_depth + 1)
-                
-            # If we reach leaf: measure depth
+        q = deque([(root, 1)])
+        while q:            
+            node, depth = q.popleft()
+            
+            # We have reached earliest leaf
             if not node.left and not node.right:
-                min_depth = min(min_depth, curr_depth)
+                return depth
+            
+            # Increment depth for every level
+            if node.left:
+                q.append([node.left, depth + 1])
+            if node.right:
+                q.append([node.right, depth + 1])
+        
+        return -1
                 
-        dfs(root, 1)
-        return min_depth
+        
+        
+        
