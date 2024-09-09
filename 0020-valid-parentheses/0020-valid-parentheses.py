@@ -1,29 +1,23 @@
 class Solution:
     def isValid(self, s: str) -> bool:
-        open = {}
-        open['('] = ')'
-        open['{'] = '}'
-        open['['] = ']'
-        closed = {}
-        
-        closed[')'] = '('
-        closed['}'] = '{'
-        closed[']'] = '['
-        stack = []
-
+        stack = deque([])
+        open_brackets = ['(', '{', '[']
+        bracket_dict = {}
+        bracket_dict[')'] = '('
+        bracket_dict['}'] = '{'
+        bracket_dict[']'] = '['
         for char in s:
-            if char in open:
-                stack.append(open.get(char))
-            if char in closed:
+            if char in open_brackets:
+                stack.append(char)
+            else:
+                # Closed brackets with no open ones
                 if len(stack) == 0:
                     return False
-                next_char = stack.pop()
-                if char == next_char:
-                    continue
-                else:
+                # Closed brackets should match with open ones 
+                if bracket_dict[char] != stack.pop():
                     return False
-        if len(stack) == 0:
-            return True
-        else:
+        # Leftover open brackets
+        if stack:
             return False
-        
+        else:
+            return True
