@@ -1,14 +1,14 @@
-# No optimization for sparse vectors
+# Optimized for sparse vectors: dict with only populated numbers
 class SparseVector:
     def __init__(self, nums: List[int]):
-        self.nums = nums
+        self.valid_nums = {idx: nums[idx] for idx in range(len(nums)) if nums[idx] != 0}
 
     # Return the dotProduct of two sparse vectors
     def dotProduct(self, vec: 'SparseVector') -> int:
         tot_sum = 0
-        vec = vec.nums #b/c sparsevector obj not subscriptable
-        for i in range(len(self.nums)):
-            tot_sum += (self.nums[i] * vec[i])
+        overlapping_indices = set(self.valid_nums.keys()).intersection(set(vec.valid_nums.keys()))
+        for idx in overlapping_indices:
+            tot_sum += self.valid_nums[idx] * vec.valid_nums[idx]
         return tot_sum
         
 
