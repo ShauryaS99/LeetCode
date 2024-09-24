@@ -10,17 +10,19 @@ class Node:
 from collections import deque
 class Solution:
     def lowestCommonAncestor(self, p: 'Node', q: 'Node') -> 'Node':
-        p_ancestors = set()
-        # Add p's ancestors
-        while p:
-            p_ancestors.add(p.val)
-            p = p.parent
-        
-        # Go through q's ancestors: find common ancestor and return
-        while q:
-            if q.val in p_ancestors:
-                return q
+        #O(1) space complexity
+        copy_p = p
+        copy_q = q
+        # Traverse up parent nodes
+        while copy_p != copy_q:
+            if copy_p:
+                copy_p = copy_p.parent
             else:
-                q = q.parent
-        
-        return None
+                # Upon reaching root, switch ptr to OTHER node
+                # a+b = b+a => will meet at LCA
+                copy_p = q
+            if copy_q:
+                copy_q = copy_q.parent
+            else:
+                copy_q = p
+        return copy_p
