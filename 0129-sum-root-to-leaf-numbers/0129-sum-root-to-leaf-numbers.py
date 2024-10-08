@@ -6,17 +6,18 @@
 #         self.right = right
 class Solution:
     def sumNumbers(self, root: Optional[TreeNode]) -> int:
-        #O(n)
+        #O(n) w/ O(1) space complexity
         if not root:
             return 0
         
-        all_nums = []
+        tot_paths = 0
         def dfs(node, curr_path):
+            nonlocal tot_paths
             if node:
                 # If child node, add val and append path
                 if not node.left and not node.right:
                     curr_path += str(node.val)
-                    all_nums.append(int(curr_path))
+                    tot_paths += int(curr_path)
                 # Else keep going until child node
                 else:
                     if node.left:
@@ -27,4 +28,4 @@ class Solution:
                 
         
         dfs(root, '')
-        return sum(all_nums)
+        return tot_paths
