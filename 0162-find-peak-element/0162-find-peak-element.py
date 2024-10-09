@@ -1,23 +1,31 @@
 class Solution:
     def findPeakElement(self, nums: List[int]) -> int:
-        # O(logN)
-        l, r = 0, len(nums) - 1
+        l = 0
+        r = len(nums) - 1
+        if len(nums) < 2:
+            return 0
         while l <= r:
             mid = (l + r) // 2
-            mid_val = nums[mid]
-            # Set mid, left, and right values
+            # Handle case when mid is on left edge
             if mid == 0:
-                left_val = -float('inf')
-            else:
-                left_val = nums[mid - 1]
-            if mid == len(nums) - 1:
-                right_val = -float('inf')
-            else:
-                right_val = nums[mid + 1]
-            # Do comparisons for binary search
-            if left_val < mid_val and mid_val > right_val:
+                if nums[mid] > nums[mid + 1]:
+                    return mid
+                else:
+                    l = mid + 1
+                    continue
+            # Handle case when mid is on right edge
+            elif mid == len(nums) - 1:
+                if nums[mid] > nums[mid - 1]:
+                    return mid
+                else:
+                    r = mid - 1
+                    continue
+            # Found peak
+            elif nums[mid] > nums[mid - 1] and nums[mid] > nums[mid + 1]:
                 return mid
-            elif left_val < mid_val and mid_val < right_val:
-                l = mid + 1
-            else:
+            elif nums[mid] < nums[mid - 1]:
                 r = mid - 1
+            else:
+                l = mid + 1
+        return -1
+                
