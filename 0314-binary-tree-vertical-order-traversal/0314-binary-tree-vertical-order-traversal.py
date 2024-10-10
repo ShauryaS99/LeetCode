@@ -5,22 +5,27 @@
 #         self.left = left
 #         self.right = right
 from collections import deque
+from collections import defaultdict
 class Solution:
     def verticalOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
-        #O(nlogn) because of sorting
-        if not root:
-            return []
         col_order = defaultdict(list)
-        q = deque([])
-        q.append((root, 0))
-        while q:
-            node, col = q.popleft()
-            col_order[col].append(node.val)
-            if node.left:
-                q.append((node.left, col - 1))
-            if node.right:
-                q.append((node.right, col + 1))
-        #-2: [4], -1: [9], 0: [3, 0, 1]
+        def dfs(node, col, row):
+            if node:
+                col_order[(col, row)].append(node.val)
+                dfs(node.left, col - 1, row + 1)
+                dfs(node.right, col + 1, row + 1)
+        dfs(root, 0, 0)
         col_order = dict(sorted(col_order.items()))
-        return col_order.values()
-            
+        res = []
+        prev_col = -float('inf')
+        for k, v in col_order.items():
+            col = k[0]
+            row = k[1]
+            if col == prev_col:
+                res[-1].extend(v)
+            else:
+                prev_col = col
+                res.append(v)
+        return res
+        
+                
