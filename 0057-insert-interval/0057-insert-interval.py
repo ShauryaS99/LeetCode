@@ -1,30 +1,17 @@
 class Solution:
     def insert(self, intervals: List[List[int]], newInterval: List[int]) -> List[List[int]]:
-        #O(n)
+        #One pass solution O(n)
         res = []
-        interval_added = False
-        # Insert newInterval in correct order
+        
         for start, end in intervals:
-            if newInterval[0] < start:
+            if end < newInterval[0]:  # No overlap, current interval ends before newInterval starts
+                res.append([start, end])
+            elif start > newInterval[1]:  # No overlap, current interval starts after newInterval ends
                 res.append(newInterval)
-                interval_added = True
-            res.append([start, end])
-        if not interval_added:
-            res.append(newInterval)
+                newInterval = [start, end]  # Update newInterval to process remaining intervals
+            else:  # Overlapping intervals, merge them
+                newInterval[0] = min(newInterval[0], start)
+                newInterval[1] = max(newInterval[1], end)
         
-        # Merge intervals
-        prev_start, prev_end = res[0][0], res[0][1]
-        intervals = []
-        for start, end in res:
-            if start <= prev_end:
-                prev_end = max(prev_end, end)
-            else:
-                intervals.append([prev_start, prev_end])
-                prev_start, prev_end = start, end
-        intervals.append([prev_start, prev_end])
-        return intervals
-                
-            
-        
-                
-                
+        res.append(newInterval)  # Append the last interval
+        return res
