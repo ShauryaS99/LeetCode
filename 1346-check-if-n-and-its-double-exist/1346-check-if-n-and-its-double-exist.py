@@ -1,17 +1,17 @@
+from collections import defaultdict
 class Solution:
     def checkIfExist(self, arr: List[int]) -> bool:
         #O(n) solution
-        # Count zeros
-        zero_present = False
+        # Create freq dict (b/c of zero edge case, frequency matters)
+        freq_dict = defaultdict(int)
+        for i in arr:
+            freq_dict[i] += 1
+        
         for i in arr:
             if i == 0:
-                if zero_present:
+                if freq_dict[0] >= 2:
                     return True
-                else:
-                    zero_present = True
-        # Check if val is in arr
-        for idx, val in enumerate(arr):
-            if val != 0 and 2 * val in arr:
+            elif 2 * i in freq_dict:
                 return True
         
         return False
